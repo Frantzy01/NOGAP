@@ -243,7 +243,7 @@ ADMINISTRATION SYSTEM
 </div>
 
     <QRCodeCanvas
-  value={`http://192.168.0.103:3000/verify?id=${profil.id}`}
+  value={`https://nogap-q172.vercel.app/verify?id=${profil.id}`}
   size={160}
 />
 
