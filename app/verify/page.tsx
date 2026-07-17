@@ -46,6 +46,7 @@ function VerifyContent() {
 
       <p>ID: {membre.id}</p>
       <p>Email: {membre.email}</p>
+       <p>Tel: {membre.tel}</p>
       <hr
   style={{
     margin: "25px 0"
@@ -73,7 +74,7 @@ function VerifyContent() {
 
 
 
-      <p>Tel: {membre.tel}</p>
+      
     </main>
   );
 }
