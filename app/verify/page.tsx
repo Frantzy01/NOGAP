@@ -46,6 +46,33 @@ function VerifyContent() {
 
       <p>ID: {membre.id}</p>
       <p>Email: {membre.email}</p>
+      <hr
+  style={{
+    margin: "25px 0"
+  }}
+/>
+
+<h3 style={{ color: "#0a3d62" }}>
+  Déclaration d'engagement
+</h3>
+
+<p
+  style={{
+    textAlign: "justify",
+    lineHeight: "1.8",
+    fontStyle: "italic",
+    color: "#444"
+  }}
+>
+  "Je m'engage à exercer mes fonctions avec intégrité, impartialité,
+  transparence et loyauté, dans le respect de la Constitution et des
+  valeurs de la NOGAP. Je place l'intérêt de l'institution et de ses
+  investisseurs au-dessus de tout intérêt personnel."
+</p>
+
+
+
+
       <p>Tel: {membre.tel}</p>
     </main>
   );

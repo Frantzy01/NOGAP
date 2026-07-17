@@ -4,271 +4,229 @@ import { useEffect, useState } from "react";
 import { QRCodeCanvas } from "qrcode.react";
 import html2canvas from "html2canvas";
 import { membres } from "./data/membres";
-import{ useRouter } from "next/navigation";
-
-
+import { useRouter } from "next/navigation";
 
 export default function Page() {
-
-const router=  useRouter();
+  const router = useRouter();
   const responsables = membres;
- 
 
+  const [profil, setProfil] = useState(responsables[0]);
 
-  const [profil,setProfil] = useState(responsables[0]);
+  useEffect(() => {
+    const sove = localStorage.getItem("profilChoisi");
+    if (sove) {
+      setProfil(JSON.parse(sove));
+    }
+  }, []);
 
-useEffect(()=>{
-
-const sove = localStorage.getItem("profilChoisi");
-
-if(sove){
-setProfil(JSON.parse(sove));
-}
-
-},[]);
-
-
-
-
-
-  const telechargerCarte = async()=>{
-
+  const telechargerCarte = async () => {
     const element = document.getElementById("carte-nogap");
-
-    if(!element) return;
+    if (!element) return;
 
     const canvas = await html2canvas(element);
 
     const lien = document.createElement("a");
-
-    lien.href = canvas.toDataURL();
-
-    lien.download="NOGAP-Carte.png";
-
+    lien.href = canvas.toDataURL("image/png");
+    lien.download = "NOGAP-Carte.png";
     lien.click();
-
   };
 
-
   return (
+    <main style={{ padding: "20px", fontFamily: "Arial" }}>
+      <div
+  style={{
+    background: "#0a3d62",
+    color: "white",
+    padding: "20px",
+    borderRadius: "15px",
+    textAlign: "center",
+    marginBottom: "25px",
+    boxShadow: "0 4px 10px rgba(0,0,0,0.2)"
+  }}
+>
+  <img
+    src="/nogap-logo.png"
+    alt="NOGAP Logo"
+    width={70}
+    style={{ marginBottom: "10px" }}
+  />
 
-    <main style={{
-      padding:"20px",
-      fontFamily:"Arial"
-    }}>
+  <h1
+    style={{
+      margin: 0,
+      fontSize: "32px",
+      fontWeight: "bold"
+    }}
+  >
+    NOGAP ADMINISTRATION SYSTEM
+  </h1>
 
-
-      <h1>
-        NOGAP ADMINISTRATION SYSTEM
-      </h1>
-
-
-      <div>
-
-      {responsables.map((r)=>(
-
-        <div
-        key={r.id}
-        style={{
-          border:"1px solid #ccc",
-          padding:"10px",
-          marginBottom:"10px",
-          display:"flex",
-          justifyContent:"space-between"
-        }}>
-
-         <div>
-
-<b>{r.nom}</b>
-
-<br/>
-
-{r.fonction}
-
-<br/>
-
-ID: {r.id}
-
-<br/>
-
-Email: {r.email}
-
-<br/>
-
-Téléphone: {r.tel}
-
+  <p
+    style={{
+      marginTop: "8px",
+      fontSize: "16px"
+    }}
+  >
+    Nouvelle Génération Anti Pauvreté
+  </p>
 </div>
 
 
 
-     <button
-onClick={()=>{
-
-setProfil(r);
-
-localStorage.setItem(
-"profilChoisi",
-JSON.stringify(r)
-);
-
-router.push(`/profil/${r.id}`);
-
-}}
->
-Voir Profil
-</button>
 
 
-
-
-
-
-
-        </div>
-
-      ))}
-
-      </div>
-
-
-
-      <div
-id="carte-nogap"
-style={{
-  width:"380px",
-  border:"3px solid #0a3d62",
+      {responsables.map((r) => (
+        <div
+          key={r.id}
+          style={{
+  background:"#ffffff",
   borderRadius:"15px",
   padding:"20px",
-  background:"#ffffff",
-  boxShadow:"0 4px 12px rgba(0,0,0,0.2)",
-  textAlign:"center"
-}}>
+  marginBottom:"20px",
+  display:"flex",
+  justifyContent:"space-between",
+  alignItems:"center",
+  boxShadow:"0 4px 12px rgba(0,0,0,0.15)",
+  borderLeft:"8px solid #0a3d62"
+}}
 
 
 
-      <img
-      src="/nogap-logo.png"
-      alt="logo"
-      width="120"
-      />
-      <br/>
 
-<img
-  src={profil.photo}
-  alt="photo membre"
-  width="90"
-  height="90"
-  style={{
-    borderRadius:"50%",
-    objectFit:"cover",
-    border:"2px solid #0a3d62"
-  }}
-/>
+        >
+          <div>
 
-<p>
-  Foto: {profil.photo}
-</p>
-
-
-
-<br/>
-
-<h2 style={{
-color:"#0a3d62",
-margin:"10px 0"
-}}>
-NOGAP
+<h2
+style={{
+margin:"0",
+color:"#0a3d62"
+}}
+>
+{r.nom}
 </h2>
 
-<p style={{
-fontSize:"12px",
-color:"gray"
-}}>
-ADMINISTRATION SYSTEM
-</p>
-
-<hr/>
-
-
-
-      <h2>
-        CARTE ADMINISTRATIVE
-      </h2>
-
-
-     <div style={{
-  fontSize:"14px",
-  lineHeight:"1.6"
-}}>
-
-<p>
-<b>ID :</b> {profil.id}
-</p>
-
-<p>
-<b>Nom :</b> {profil.nom}
-</p>
-
-<p>
-<b>Fonction :</b> {profil.fonction}
-</p>
-
-<p>
-<b>Email :</b> {profil.email}
-</p>
-
-<p>
-<b>Téléphone :</b> {profil.tel}
-</p>
-
-<p style={{color:"green"}}>
-  <b>Statut :</b> ACTIF ✅
-</p>
-
-<hr/>
-
-<p>
-  <b>Date émission :</b> 14 Juin 2026
-</p>
-
-<p>
-  <b>Vérification :</b> NOGAP-{profil.id}
-</p>
-
-<p style={{color:"#0a3d62"}}>
-  <b>CARTE OFFICIELLE NOGAP ✅</b>
+<p
+style={{
+margin:"5px 0",
+fontWeight:"bold",
+color:"#f39c12"
+}}
+>
+{r.fonction}
 </p>
 
 
-</div>
-
-    <QRCodeCanvas
-  value={`https://nogap-q172.vercel.app/verify?id=${profil.id}`}
-  size={160}
-/>
 
 
+            <br />
+            ID: {r.id}
+            <br />
+            Email: {r.email}
+            <br />
+            Téléphone: {r.tel}
+          </div>
 
+          <button
+            onClick={() => {
+              setProfil(r);
+              localStorage.setItem("profilChoisi", JSON.stringify(r));
+              router.push(`/profil/${r.id}`);
+            }}
+          >
+            Voir Profil
+          </button>
+        </div>
+      ))}
 
+      <br />
 
-      <br/><br/>
+      <div
+        id="carte-nogap"
+        style={{
+          width: "380px",
+          margin: "auto",
+          borderRadius: "20px",
+          padding: "20px",
+          background: "linear-gradient(135deg,#0a3d62,#1e5f99)",
+          color: "#fff",
+          textAlign: "center",
+          boxShadow: "0 5px 15px rgba(0,0,0,.3)",
+        }}
+      >
+        <img
+          src="/nogap-logo.png"
+          alt="Logo"
+          width={90}
+          style={{
+            background: "#fff",
+            borderRadius: "50%",
+            padding: "8px",
+          }}
+        />
 
+        <br />
+        <br />
 
-      <button onClick={()=>window.print()}>
-        Imprimer Carte
-      </button>
+        <img
+          src={profil.photo}
+          alt={profil.nom}
+          width={100}
+          height={100}
+          style={{
+            borderRadius: "50%",
+            border: "4px solid white",
+            objectFit: "cover",
+          }}
+        />
 
+        <h2>{profil.nom}</h2>
 
-      <button onClick={telechargerCarte}>
-        Telecharger Carte
-      </button>
+        <h3 style={{ color: "#FFD700" }}>{profil.fonction}</h3>
 
+        <hr />
 
+        <p>
+          <b>ID :</b> {profil.id}
+        </p>
+
+        <p>
+          <b>Email :</b> {profil.email}
+        </p>
+
+        <p>
+          <b>Téléphone :</b> {profil.tel}
+        </p>
+
+        <p>
+          <b>Statut :</b> ACTIF ✅
+        </p>
+
+        <p>
+          <b>Date émission :</b> 14 Juin 2026
+        </p>
+
+        <QRCodeCanvas
+          value={`https://nogap-ws24.vercel.app/verify?id=${profil.id}`}
+          size={150}
+        />
+
+        <br />
+        <br />
+
+        <button onClick={() => window.print()}>
+          Imprimer Carte
+        </button>
+
+        <button
+          onClick={telechargerCarte}
+          style={{ marginLeft: "10px" }}
+        >
+          Télécharger Carte
+        </button>
       </div>
-
-
     </main>
-
   );
-
 }
+
+
+

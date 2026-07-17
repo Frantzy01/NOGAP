@@ -9,9 +9,9 @@ export const membres = [
   },
 {
     id:"ADM-VP-001",
-    nom:"MONDESIR Gethro",
+    nom:"MONDESIR Géthro",
     fonction:"Vice Président",
-    email:"mondesirgethro@gmail.com",
+    email:"gethromondesir20@gmail.com",
     tel:"50937705411",
     photo: "/gethro.png"
   },
